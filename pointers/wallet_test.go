@@ -6,23 +6,23 @@ func TestWallet(t *testing.T) {
 
 	t.Run("deposit", func(t *testing.T) {
 		wallet := Wallet{}
-		wallet.Deposit(Bitcoin(10))
-		assertBalance(t, wallet, Bitcoin(10))
+		wallet.Deposit(Bitcoin(1.05))
+		assertBalance(t, wallet, Bitcoin(1.05))
 
 	})
 
 	t.Run("withdraw", func(t *testing.T) {
 		t.Run("withdraw with funds", func(t *testing.T) {
-			wallet := Wallet{balance: Bitcoin(20)}
-			err := wallet.Withdraw(Bitcoin(10))
+			wallet := Wallet{balance: Bitcoin(1.05)}
+			err := wallet.Withdraw(Bitcoin(.5))
 			assertNoError(t, err)
-			assertBalance(t, wallet, Bitcoin(10))
+			assertBalance(t, wallet, Bitcoin(.55))
 		})
 		t.Run("withdraw without funds", func(t *testing.T) {
-			wallet := Wallet{balance: Bitcoin(20)}
-			err := wallet.Withdraw(Bitcoin(100))
+			wallet := Wallet{balance: Bitcoin(1.05)}
+			err := wallet.Withdraw(Bitcoin(5))
 			assertError(t, err, ErrInsufficientFunds)
-			assertBalance(t, wallet, Bitcoin(20))
+			assertBalance(t, wallet, Bitcoin(1.05))
 		})
 	})
 

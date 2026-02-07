@@ -5,10 +5,10 @@ import (
 	"fmt"
 )
 
-type Bitcoin int
+type Bitcoin float64
 
 func (b Bitcoin) String() string {
-	return fmt.Sprintf("%d BTC", b)
+	return fmt.Sprintf("%g BTC", b)
 }
 
 type Wallet struct {
