@@ -5,10 +5,21 @@ import "testing"
 func TestWallet(t *testing.T) {
 
 	t.Run("deposit", func(t *testing.T) {
-		wallet := Wallet{}
-		wallet.Deposit(Bitcoin(1.05))
-		assertBalance(t, wallet, Bitcoin(1.05))
+		t.Run("deposit amount positive", func(t *testing.T) {
+			wallet := Wallet{}
+			err := wallet.Deposit(Bitcoin(.05))
+			assertNoError(t, err)
+			assertBalance(t, wallet, Bitcoin(.05))
 
+		})
+
+		t.Run("deposit amount not positive", func(t *testing.T) {
+			wallet := Wallet{}
+			err := wallet.Deposit(Bitcoin(0.0))
+			assertError(t, err, ErrAmountNotPositive)
+			assertBalance(t, wallet, wallet.Balance())
+
+		})
 	})
 
 	t.Run("withdraw", func(t *testing.T) {
@@ -19,6 +30,7 @@ func TestWallet(t *testing.T) {
 			assertBalance(t, wallet, Bitcoin(.55))
 			assertWithdrawnAmount(t, amount, Bitcoin(.5))
 		})
+
 		t.Run("withdraw without funds", func(t *testing.T) {
 			wallet := Wallet{balance: Bitcoin(1.05)}
 			amount, err := wallet.Withdraw(Bitcoin(5))
