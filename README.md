@@ -1,1 +1,1 @@
-Practice TDD with Go
+Practice TDD with Go progamming language features.
